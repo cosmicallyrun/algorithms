@@ -1,5 +1,8 @@
 #include <cstddef> 
 #include <iterator>
+#include <iostream>
+using namespace std;
+#include <stdio.h>
 template <typename Item>
 class Deque {
 private:
@@ -8,17 +11,17 @@ private:
         Node* next;
         Node* prev;
     };
-    Node* start;
-    Node* end;
-    std::size_t currentSize;
+    Node* start = nullptr;
+    Node* end = nullptr;
+    std::size_t currentSize = 0;
 
 public:
-    Deque(){
-        start=nullptr;
-        end=nullptr;
-        currentSize=0;
-    };
-    ~Deque();
+    Deque(){}
+    ~Deque(){
+        while (start!=nullptr){
+            removeFirst();
+        }
+    }
     bool isEmpty() {
         return start==nullptr;
     };
@@ -34,11 +37,11 @@ public:
         };
         start=newNode;
         currentSize++;
-    };
+    }
     void addLast(const Item& item){
         Node* newNode = new Node{item, nullptr, end};
         if (end!=nullptr){
-        end->next=newNode;
+            end->next=newNode;
         }else{
             start=newNode;
         };
@@ -58,7 +61,8 @@ public:
              delete oldStart;
              currentSize--;
              return data;
-        }
+        } 
+         abort();
     };
     Item removeLast(){
         if (!isEmpty()){
@@ -76,6 +80,21 @@ public:
         };
     };
 };
+
 int main(){
-return 1;
+    Deque<int> dq{};
+
+    dq.addFirst(5);
+    for (int i = 4; i >= 0; --i)
+        dq.addFirst(i);
+    for (int i = 6; i < 10; ++i)
+        dq.addLast(i);
+    
+    while (!dq.isEmpty()) {
+        auto data = dq.removeFirst();
+        printf("%d",data); 
+
+    }
+
+    return 0;
 };
